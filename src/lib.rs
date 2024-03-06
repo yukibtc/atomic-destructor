@@ -1,6 +1,11 @@
 // Copyright (c) 2024 Yuki Kishimoto
 // Distributed under the MIT software license
 
+//! Atomic destructor
+
+#![forbid(unsafe_code)]
+#![warn(missing_docs)]
+
 extern crate alloc;
 
 use alloc::sync::Arc;
@@ -12,6 +17,7 @@ mod saturating;
 
 use self::saturating::SaturatingUsize;
 
+/// Atomic destroyer
 pub trait AtomicDestroyer: Debug + Clone {
     /// Optional name to identify inner in logs/teminal
     #[cfg(feature = "tracing")]
@@ -23,6 +29,7 @@ pub trait AtomicDestroyer: Debug + Clone {
     fn on_destroy(&self);
 }
 
+/// Atomic destructor
 pub struct AtomicDestructor<T>
 where
     T: AtomicDestroyer,
@@ -131,6 +138,7 @@ impl<T> AtomicDestructor<T>
 where
     T: AtomicDestroyer,
 {
+    /// New wrapper
     pub fn new(inner: T) -> Self {
         Self {
             destroyed: Arc::new(AtomicBool::new(false)),
@@ -139,6 +147,7 @@ where
         }
     }
 
+    /// Check if destroyed
     pub fn is_destroyed(&self) -> bool {
         self.destroyed.load(Ordering::SeqCst)
     }
