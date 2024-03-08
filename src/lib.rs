@@ -67,6 +67,7 @@ where
         f.debug_struct("AtomicDestructor")
             .field("destroyed", &self.destroyed)
             .field("counter", &self.counter)
+            .field("inner", &self.inner)
             .finish()
     }
 }
