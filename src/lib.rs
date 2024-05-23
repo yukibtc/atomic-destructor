@@ -92,7 +92,7 @@ where
 
         #[cfg(feature = "tracing")]
         if let Some(name) = &self.inner.name() {
-            tracing::debug!("{} cloned: atomic counter increased to {}", name, _value);
+            tracing::trace!("{} cloned: atomic counter increased to {}", name, _value);
         }
 
         // Clone
@@ -126,7 +126,7 @@ where
     fn drop(&mut self) {
         if self.is_stealth() {
             #[cfg(feature = "tracing")]
-            tracing::debug!("Tried to drop stealth destructor, ignore.");
+            tracing::trace!("Tried to drop stealth destructor, ignore.");
 
             return;
         }
@@ -134,7 +134,7 @@ where
         if self.is_destroyed() {
             #[cfg(feature = "tracing")]
             if let Some(name) = &self.inner.name() {
-                tracing::debug!("{} already destroyed.", name);
+                tracing::trace!("{} already destroyed.", name);
             }
         } else {
             // Decrease counter
@@ -142,14 +142,14 @@ where
 
             #[cfg(feature = "tracing")]
             if let Some(name) = &self.inner.name() {
-                tracing::debug!("{} dropped: atomic counter decreased to {}", name, value);
+                tracing::trace!("{} dropped: atomic counter decreased to {}", name, value);
             }
 
             // Check if it's time for destruction
             if value == 0 {
                 #[cfg(feature = "tracing")]
                 if let Some(name) = &self.inner.name() {
-                    tracing::debug!("Destroying {} ...", name);
+                    tracing::trace!("Destroying {} ...", name);
                 }
 
                 // Destroy
@@ -160,7 +160,7 @@ where
 
                 #[cfg(feature = "tracing")]
                 if let Some(name) = &self.inner.name() {
-                    tracing::debug!("{} destroyed", name);
+                    tracing::trace!("{} destroyed", name);
                 }
             }
         }
