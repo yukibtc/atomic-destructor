@@ -1,6 +1,6 @@
 [package]
 name = "atomic-destructor"
-version = "0.1.1"
+version = "0.2.0-alpha.1"
 edition = "2021"
 description = "Atomic destructor for multi-threaded env"
 authors = ["Yuki Kishimoto <yukikishimoto@protonmail.com>"]
